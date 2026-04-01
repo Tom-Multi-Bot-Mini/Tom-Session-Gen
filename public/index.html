@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOM-BOT-X Session Generator</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0f172a; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: #1e293b; padding: 2rem; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); text-align: center; width: 350px; }
+        input { width: 90%; padding: 12px; margin: 15px 0; border-radius: 8px; border: none; background: #334155; color: white; text-align: center; font-size: 1rem; }
+        button { background: #3b82f6; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s; }
+        button:hover { background: #2563eb; }
+        #code-display { margin-top: 20px; font-size: 1.5rem; color: #10b981; letter-spacing: 5px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>TOM-BOT-X</h2>
+        <p>Enter WhatsApp Number with Country Code</p>
+        <input type="text" id="number" placeholder="88017XXXXXXXX">
+        <button onclick="getCode()">Get Pairing Code</button>
+        <div id="code-display"></div>
+    </div>
+
+    <script>
+        async function getCode() {
+            const num = document.getElementById('number').value;
+            const display = document.getElementById('code-display');
+            display.innerText = "Generating...";
+            try {
+                const res = await fetch(`/session?number=${num}`);
+                const data = await res.json();
+                if(data.code) display.innerText = data.code;
+                else display.innerText = "Error!";
+            } catch (e) { display.innerText = "Server Error!"; }
+        }
+    </script>
+</body>
+</html>
